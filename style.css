@@ -3,6 +3,7 @@
 	padding:0;
 	font-family: "Lucida Console", Monaco, monospace;
 	box-sizing: border-box;
+	overflow:hidden;
 }
 
 a{
@@ -17,6 +18,14 @@ a{
 	-ms-transform: rotate(180deg);
 	-o-transform: rotate(180deg);
 	transform: rotate(180deg);
+}
+
+.selected{
+	background-color: gray;
+}
+
+input[type=text]{
+	width: 100px;
 }
 
 input[type=text].number{
@@ -55,6 +64,11 @@ input[type=radio]{
 /*#sidebar.show #summary{
 	display: none;
 }*/
+
+#sidebar.show{
+	height: 100%;
+	overflow-y: scroll;
+}
 
 #sidebar:not(.show) *:not(#toggle):not(#summary):not(br){
 	display: none;

@@ -216,9 +216,9 @@ events: function(){
 				"<td><input type='radio' name='group'></td>" +
 				"<td><input type='text'></td>" +
 				"<td><input type='text'></td>" +
-				"<td><input type='text' class='number'></td>" +
-				"<td><input type='text' class='number'></td>" +
-				"<td><input type='text' class='number'></td>" +
+				"<td><input type='text' value='1' class='number'></td>" +
+				"<td><input type='text' value='1.5' class='number'></td>" +
+				"<td><input type='text' value= '2' class='number'></td>" +
 				"<td></td>" +
 			"</tr>"
 		);
@@ -226,11 +226,28 @@ events: function(){
 	$('#save').click(function(){
 		Toast.save();
 	});
+	$('#remove').click(function(){
+		if(null != Toast.select){
+			Toast.select.remove();
+		}
+	});
+	$('#moveUp').click(function(){
+		if(null != Toast.select){
+			Toast.select.insertBefore(Toast.select.prev());
+		}
+	});
+	$('#moveDown').click(function(){
+		if(null != Toast.select){
+			Toast.select.insertAfter(Toast.select.next());
+		}
+	});
 	$('#toggle').click(function(){
 		$(this).parent().toggleClass('show');
 	});
 	$('#sidebar table').on('click','input[type=radio]', function(){
+		$('.selected').removeClass('selected');
 		Toast.select = $(this).parent().parent(); //row
+		Toast.select.addClass('selected');
 		var elem = Toast.select.children().next(); //name
 		var sum = elem.children().val();
 		elem = elem.next().next(); //green;
@@ -310,7 +327,7 @@ init: function(consts){
 	this.initTimerFunction();
 	this.events();
 	this.load();
-	$("#time").css('font-size', 450);
+	$("#time").css('font-size', this.consts.FONT_SIZE);
 }
 
 
