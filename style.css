@@ -1,0 +1,43 @@
+*{
+	margin:0;
+	padding:0;
+	font-family: "Lucida Console", Monaco, monospace;
+	box-sizing: border-box;
+}
+
+a{
+	cursor: pointer;
+	margin: 10px;
+}
+
+#time{
+	height: 100%;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 100%;
+
+}
+
+#time.hide{
+	color: transparent;
+}
+
+#sidebar{
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: lightgray;
+}
+
+#toggle{
+	font-size: 60px;
+	font-weight:700;
+}
+
+/*#sidebar.show #summary{
+	display: none;
+}*/
+
+#sidebar:not(.show) *:not(#toggle):not(#summary):not(br){
+	display: none;
+}

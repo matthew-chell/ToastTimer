@@ -1,0 +1,44 @@
+<html>
+<head>
+<script src="jquery.min.js"></script>
+<script src="script.js"></script>
+<link type="text/css" rel="stylesheet" href="style.css"></link>
+<script>
+$(document).ready(function () {
+	Toast.init({
+		TICK_TIME: 100,
+		INITIAL: 1,
+		GREEN: 2,
+		YELLOW: 3,
+		RED: 4,
+		COOKIE_NAME: 'toast',
+		PARAMETER: 'c',
+		COOKIE_SAVE: false,
+		INITIAL_COLOUR: '#ffffff',
+		GREEN_COLOUR: '#00ff00',
+		YELLOW_COLOUR: '#ffff00',
+		RED_COLOUR: '#ff0000'
+	});
+});
+</script>
+</head>
+<body>
+	<div id='time'>00:00</div>
+	<div id='sidebar'>
+		<a id='toggle'>+</a>
+		<div id='summary'>
+		</div>
+		<table><thead><tr>
+			<th></th>
+			<th>Name</th>
+			<th>Role</th>
+			<th>Green</th>
+			<th>Yellow</th>
+			<th>Red</th>
+			<th>Time</th>
+		</tr></thead><tbody></tbody></table>
+		<a id='add'>Add</a>
+		<a id='save'>Save</a>
+	</div>
+</body>
+</html>
