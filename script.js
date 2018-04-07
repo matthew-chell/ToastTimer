@@ -91,6 +91,7 @@ save: function(){
 		});
 		data.push(row);
 	});
+	console.log(JSON.stringify(data));
 	if(this.consts.COOKIE_SAVE){
 		this.saveCookie(this.consts.COOKIE_NAME, JSON.stringify(data), new Date(10000000000000) /*reasonable large date*/);
 	} else {
@@ -107,7 +108,9 @@ load: function() {
 			
 			raw = this.getParameterByName(this.consts.PARAMETER);
 		}
-		var data = JSON.parse(raw);
+		if('undefined' == typeof data){
+			data = JSON.parse(raw);
+		}
 		var tbody = $('#sidebar tbody');
 		for(var i = 0; i < data.length; i ++){
 			tbody.append(
@@ -115,9 +118,9 @@ load: function() {
 					"<td><input type='radio' name='group'></td>" +
 					"<td><input type='text' value='" + data[i].name + "'></td>" +
 					"<td><input type='text' value='" + data[i].role + "'></td>" +
-					"<td><input type='text' value='" + data[i].green + "'></td>" +
-					"<td><input type='text' value='" + data[i].yellow + "'></td>" +
-					"<td><input type='text' value='" + data[i].red + "'></td>" +
+					"<td><input type='text' value='" + data[i].green + "' class='number'></td>" +
+					"<td><input type='text' value='" + data[i].yellow + "' class='number'></td>" +
+					"<td><input type='text' value='" + data[i].red + "' class='number'></td>" +
 					"<td>" + data[i].time + "</td>" +
 				"</tr>"
 			);
@@ -213,9 +216,9 @@ events: function(){
 				"<td><input type='radio' name='group'></td>" +
 				"<td><input type='text'></td>" +
 				"<td><input type='text'></td>" +
-				"<td><input type='text'></td>" +
-				"<td><input type='text'></td>" +
-				"<td><input type='text'></td>" +
+				"<td><input type='text' class='number'></td>" +
+				"<td><input type='text' class='number'></td>" +
+				"<td><input type='text' class='number'></td>" +
 				"<td></td>" +
 			"</tr>"
 		);
@@ -239,44 +242,61 @@ events: function(){
 		$("#summary").html(sum);
 	});
 	$('#time').click(function(){
-		Toast.click();
+		//Toast.click();
 	});
 	$( "body" ).keypress(function( event ) {
-		console.log(event.which);
-		switch(event.which){
-		case 13: //enter
-			Toast.click();
-			break;
-		case 39: //double quote
-			Toast.click();
-			break;
-		case 44: //commas
-			$("#time").css('font-size', parseInt($("#time").css("font-size")) * 1.01);
-			break;
-		case 46: //period
-			$("#time").css('font-size', parseInt($("#time").css("font-size")) * 0.99);
-			break;
-		case 91: //left brackt
-			$("#time").css('padding-top', parseInt($("#time").css("padding-top")) + 1);
-			break;
-		case 93: //right brackt
-			$("#time").css('padding-top', parseInt($("#time").css("padding-top")) - 1);
-			break;
-		case 49: //1
-			Toast.displayColour(Toast.consts.INITIAL);
-			break;
-		case 50: //2
-			Toast.displayColour(Toast.consts.GREEN);
-			break;
-		case 51: //3
-			Toast.displayColour(Toast.consts.YELLOW);
-			break;
-		case 52: //4
-			Toast.displayColour(Toast.consts.RED);
-			break;
-		case 53: //5
-			$('#time').toggleClass('hide');
-			break;
+		if(!$('#sidebar').hasClass('show')){
+			console.log(event.which);
+			switch(event.which){
+			case 13: //enter
+				Toast.click();
+				break;
+			case 39: //double quote
+				Toast.save();
+				break;
+			case 44: //commas
+				$("#time").css('font-size', parseInt($("#time").css("font-size")) * 1.01);
+				break;
+			case 46: //period
+				$("#time").css('font-size', parseInt($("#time").css("font-size")) * 0.99);
+				break;
+			case 91: //left brackt
+				$("#time").css('padding-top', parseInt($("#time").css("padding-top")) + 3);
+				break;
+			case 93: //right brackt
+				$("#time").css('padding-top', parseInt($("#time").css("padding-top")) - 3);
+				break;
+			case 49: //1
+				Toast.displayColour(Toast.consts.INITIAL);
+				break;
+			case 50: //2
+				Toast.displayColour(Toast.consts.GREEN);
+				break;
+			case 51: //3
+				Toast.displayColour(Toast.consts.YELLOW);
+				break;
+			case 52: //4
+				Toast.displayColour(Toast.consts.RED);
+				break;
+			case 53: //5{
+				$('#time').toggleClass('hide');
+				break;
+			case 54: //6
+				$('#summary').toggleClass('flip');
+				break;
+			case 55: //7
+				if((null == Toast.timer || !Toast.timer.isTicking())){
+					if(null == Toast.select){
+						Toast.select = $('#sidebar tbody tr:first-child');
+					} else if(Toast.select.is(':last-child')){
+						Toast.select = Toast.select.prevAll().last();
+					} else{
+						Toast.select = Toast.select.next();
+					}
+					Toast.select.find('input[type=radio]').click();
+				}
+				break;
+			}
 		}
 	});
 	

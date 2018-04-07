@@ -8,6 +8,24 @@
 a{
 	cursor: pointer;
 	margin: 10px;
+	font-size: 20px;
+}
+
+.flip{
+	-moz-transform: rotate(180deg);
+	-webkit-transform: rotate(180deg);
+	-ms-transform: rotate(180deg);
+	-o-transform: rotate(180deg);
+	transform: rotate(180deg);
+}
+
+input[type=text].number{
+	width: 40px;
+}
+
+input[type=radio]{
+	height: 60px;
+	width: 60px;
 }
 
 #time{
