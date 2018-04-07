@@ -166,6 +166,7 @@ click: function(){
 		return;
 	}
 	if(null != this.timer && this.timer.isTicking()){
+		$('.spin').removeClass('spin');
 		$(this.select.children()[6]).html(this.timeToString(this.timer.stop()));
 		this.displayColour(this.consts.INITIAL);
 	} else {
@@ -178,6 +179,7 @@ click: function(){
 		var red = parseFloat(elem.children().val()) * 60;
 		this.timer = new this.Timer(green, yellow, red, this.displayTime, this.displayColour);
 		this.timer.start();
+		$('#toggle').addClass('spin');
 	}
 },
 
@@ -229,6 +231,7 @@ events: function(){
 	$('#remove').click(function(){
 		if(null != Toast.select){
 			Toast.select.remove();
+			Toast.select = null;
 		}
 	});
 	$('#moveUp').click(function(){
@@ -262,11 +265,14 @@ events: function(){
 		//Toast.click();
 	});
 	$( "body" ).keypress(function( event ) {
+		if(13 == event.which){ //enter
+			Toast.click();
+		}
 		if(!$('#sidebar').hasClass('show')){
 			console.log(event.which);
 			switch(event.which){
 			case 13: //enter
-				Toast.click();
+				//Toast.click();
 				break;
 			case 39: //double quote
 				Toast.save();
