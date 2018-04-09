@@ -33,8 +33,8 @@ input[type=text].number{
 }
 
 input[type=radio]{
-	height: 60px;
-	width: 60px;
+	height: 40px;
+	width: 40px;
 }
 
 #time{
@@ -71,7 +71,7 @@ input[type=radio]{
 	overflow-y: scroll;
 }
 
-#sidebar:not(.show) *:not(#toggle):not(#summary):not(br){
+#sidebar:not(.show) *:not(.always):not(br){
 	display: none;
 }
 

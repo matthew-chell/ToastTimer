@@ -166,10 +166,15 @@ click: function(){
 		return;
 	}
 	if(null != this.timer && this.timer.isTicking()){
-		$('.spin').removeClass('spin');
-		$(this.select.children()[6]).html(this.timeToString(this.timer.stop()));
-		this.displayColour(this.consts.INITIAL);
+		this.stop();
+		this.nextPerson();
 	} else {
+		this.start();
+	}
+},
+
+start: function(){
+	if(null == this.timer || !this.timer.isTicking()){
 		$('.show > #toggle').click();
 		var elem = $(this.select.children()[3]);
 		var green = parseFloat(elem.children().val()) * 60;
@@ -183,8 +188,16 @@ click: function(){
 	}
 },
 
+stop: function(){
+	if(null != this.timer && this.timer.isTicking()){
+		$('.spin').removeClass('spin');
+		$(this.select.children()[6]).html(this.timeToString(this.timer.stop()));
+		this.displayColour(this.consts.INITIAL);
+	}
+},
+
 displayTime: function(time){
-	$('#time').html(Toast.timeToString(time));
+	$('.time').html(Toast.timeToString(time));
 },
 
 displayColour: function(colour){
@@ -209,6 +222,32 @@ displayColour: function(colour){
 
 timeToString: function(time){
 	return (parseInt(time / 60) < 10 ? "0" : "") + parseInt(time / 60) + ":" + (time % 60 < 10 ? "0" : "") + parseInt(time % 60);
+},
+
+nextPerson: function(){
+	if((null == Toast.timer || !Toast.timer.isTicking())){
+		if(null == Toast.select){
+			Toast.select = $('#sidebar tbody tr:first-child');
+		} else if(Toast.select.is(':last-child')){
+			Toast.select = Toast.select.prevAll().last();
+		} else{
+			Toast.select = Toast.select.next();
+		}
+		Toast.select.find('input[type=radio]').click();
+	}
+},
+
+prevPerson:function(){
+	if((null == Toast.timer || !Toast.timer.isTicking())){
+		if(null == Toast.select){
+			Toast.select = $('#sidebar tbody tr:last-child');
+		} else if(Toast.select.is(':first-child')){
+			Toast.select = Toast.select.nextAll().first();
+		} else{
+			Toast.select = Toast.select.prev();
+		}
+		Toast.select.find('input[type=radio]').click();
+	}
 },
 
 events: function(){
@@ -259,6 +298,7 @@ events: function(){
 		sum += '<br />' + elem.children().val();
 		elem = elem.next(); //red
 		sum += '<br />' + elem.children().val();
+		sum += "<br /><span class='time always'></span>";
 		$("#summary").html(sum);
 	});
 	$('#time').click(function(){
@@ -308,16 +348,10 @@ events: function(){
 				$('#summary').toggleClass('flip');
 				break;
 			case 55: //7
-				if((null == Toast.timer || !Toast.timer.isTicking())){
-					if(null == Toast.select){
-						Toast.select = $('#sidebar tbody tr:first-child');
-					} else if(Toast.select.is(':last-child')){
-						Toast.select = Toast.select.prevAll().last();
-					} else{
-						Toast.select = Toast.select.next();
-					}
-					Toast.select.find('input[type=radio]').click();
-				}
+				Toast.nextPerson();
+				break;
+			case 56: //8
+				Toast.prevPerson();
 				break;
 			}
 		}
