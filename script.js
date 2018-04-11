@@ -297,8 +297,7 @@ events: function(){
 		elem = elem.next(); //yellow
 		sum += '<br />' + elem.children().val();
 		elem = elem.next(); //red
-		sum += '<br />' + elem.children().val();
-		sum += "<br /><span class='time always'></span>";
+		sum += '<br />' + elem.children().val();;
 		$("#summary").html(sum);
 	});
 	$('#time').click(function(){
@@ -345,7 +344,7 @@ events: function(){
 				$('#time').toggleClass('hide');
 				break;
 			case 54: //6
-				$('#summary').toggleClass('flip');
+				$('#summary, #smalltime').toggleClass('flip');
 				break;
 			case 55: //7
 				Toast.nextPerson();
